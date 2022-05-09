@@ -34,53 +34,47 @@ def swap_param(list, i, j):
     list[i], list[j] = list[j], list[i]
     return list
 
-def heap_adjust(list, start, end):
-    temp = list[start]
+def heapify(arr:list, n:int, i:int):
+    if i >= n:
+        return
 
-    i = start
-    j = 2*i
+    largest = i
+    lchild = i*2+1
+    rchild = i*2+2
 
-    while j <= end:
-        if (j < end) and (list[j]<list[j+1]):
-            j += 1
-        if temp < list[j]:
-            list[i]= list[j]
-            i = j
-            j = 2 * i
-        else:
-            break
-    list[i] = temp
+    if lchild < n and arr[lchild] > arr[largest]:
+        largest = lchild
     
+    if rchild < n and arr[rchild] > arr[largest]:
+        largest = rchild
 
-def heap_sort(list):
+    if largest != i:
+        swap_param(arr, i, largest)
+        heapify(arr,n, largest)
 
+def heap_sort(arr:list):
     start = time.time()
 
-    list_length = len(list)-1
+    n= len(arr)
 
-    first_sort_count =  int(list_length / 2)
+    for i in range (n, -1, -1):
+        heapify(arr, n, i)
 
-    for i in range(first_sort_count):
-        heap_adjust(list, first_sort_count - i, list_length)
-        # print("first--",i)
-
-    for i in range(list_length - 1):
-        list = swap_param(list, 1, list_length-i)
-        heap_adjust(list, 1, list_length-i-1)
+    for i in range (n-1, 0, -1):
+        swap_param(arr, 0, i)
+        heapify(arr, i, 0)
 
     end = time.time()
     print("Execution time in seconds: ",(end - start))
-    print("No. of lines sorted: ",len(list))
+    print("No. of lines sorted: ",len(arr))
 
 def main():
     # data = [9,7,10,14,3,5,1,22,12]
     data = readdata()
 
-    list = deque(data)
+    heap_sort(data)
 
-    list.appendleft(0)
-
-    heap_sort(list)
+    # print(data)
 
 
 if __name__ == "__main__":
