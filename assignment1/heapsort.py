@@ -1,20 +1,14 @@
-
-
-from collections import deque
 from itertools import islice
+import sys
 import time
+import tracemalloc
 
 
 def readdata():
     file_name = 'rand.txt'
 
+    data = [0]
 
-    data = []
-
-    #time at the start of program is noted
-    start = time.time()
-  
-    #keeps a track of number of lines in the file
     with open(file_name, mode='r') as datafile:
         while True:
             next_n_lines = list(islice(datafile, 10000))
@@ -22,12 +16,6 @@ def readdata():
                 break
             data.extend([int(line.rstrip()) for line in next_n_lines])
       
-    #time at the end of program execution is noted
-    end = time.time()
-  
-    #total time taken to print the file
-    print("Execution time in seconds: ",(end - start))
-    print("No. of lines printed: ",len(data))
     return data
 
 def swap_param(list, i, j):
@@ -54,8 +42,6 @@ def heap_adjust(list, start, end):
 
 def heap_sort(list):
 
-    start = time.time()
-
     list_length = len(list)-1
 
     first_sort_count =  int(list_length / 2)
@@ -67,17 +53,27 @@ def heap_sort(list):
         list = swap_param(list, 1, list_length-i)
         heap_adjust(list, 1, list_length-i-1)
 
-    end = time.time()
-    print("Execution time in seconds: ",(end - start))
-    print("No. of lines sorted: ",len(list))
-
 def main():
-    # data = [9,7,10,14,3,5,1,22,12]
+
+    sys.stdout = open('result.txt', 'w')
+    
+    tracemalloc.start()
+    
+    current, peak = tracemalloc.get_traced_memory()
+    print(f"Start time memory usage is {current / 10**6}MB; Peak was {peak / 10**6}MB")
+    start = time.time()
+
     data = readdata()
-    data.insert(0,0)
-
     heap_sort(data)
+    data = data[1:]
 
+    current, peak = tracemalloc.get_traced_memory()
+    end = time.time()
+
+    print(data)
+    print(f"Execution memory usage is {current / 10**6}MB; Peak was {peak / 10**6}MB")
+    print("Execution time in seconds: ",(end - start))
+    print("No. of lines sorted: ",len(data))
 
 if __name__ == "__main__":
     main()
