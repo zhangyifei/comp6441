@@ -62,7 +62,6 @@ def heap_sort(list):
 
     for i in range(first_sort_count):
         heap_adjust(list, first_sort_count - i, list_length)
-        # print("first--",i)
 
     for i in range(list_length - 1):
         list = swap_param(list, 1, list_length-i)
@@ -75,12 +74,9 @@ def heap_sort(list):
 def main():
     # data = [9,7,10,14,3,5,1,22,12]
     data = readdata()
+    data.insert(0,0)
 
-    list = deque(data)
-
-    list.appendleft(0)
-
-    heap_sort(list)
+    heap_sort(data)
 
 
 if __name__ == "__main__":
