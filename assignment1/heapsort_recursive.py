@@ -2,13 +2,13 @@
 
 from collections import deque
 from itertools import islice
+import sys
 import time
+import tracemalloc
 
 
 def readdata():
     file_name = 'rand.txt'
-
-
     data = []
 
     #time at the start of program is noted
@@ -24,10 +24,7 @@ def readdata():
       
     #time at the end of program execution is noted
     end = time.time()
-  
-    #total time taken to print the file
-    print("Execution time in seconds: ",(end - start))
-    print("No. of lines printed: ",len(data))
+
     return data
 
 def swap_param(list, i, j):
@@ -53,7 +50,6 @@ def heapify(arr:list, n:int, i:int):
         heapify(arr,n, largest)
 
 def heap_sort(arr:list):
-    start = time.time()
 
     n= len(arr)
 
@@ -64,17 +60,23 @@ def heap_sort(arr:list):
         swap_param(arr, 0, i)
         heapify(arr, i, 0)
 
-    end = time.time()
-    print("Execution time in seconds: ",(end - start))
-    print("No. of lines sorted: ",len(arr))
-
 def main():
-    # data = [9,7,10,14,3,5,1,22,12]
-    data = readdata()
+    
+    tracemalloc.start()
+    
+    current, peak = tracemalloc.get_traced_memory()
+    print(f"Start time memory usage is {current / 10**6}MB; Peak was {peak / 10**6}MB")
+    start = time.time()
 
+    data = readdata()
     heap_sort(data)
 
-    # print(data)
+    current, peak = tracemalloc.get_traced_memory()
+    end = time.time()
+
+    print(f"Execution memory usage is {current / 10**6}MB; Peak was {peak / 10**6}MB")
+    print("Execution time in seconds: ",(end - start))
+    print("No. of lines sorted: ",len(data))
 
 
 if __name__ == "__main__":
