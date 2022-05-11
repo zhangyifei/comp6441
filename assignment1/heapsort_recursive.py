@@ -49,7 +49,7 @@ def heap_sort(arr:list):
 
     n= len(arr)
 
-    for i in range (n, -1, -1):
+    for i in range (n//2 -1, -1, -1):
         heapify(arr, n, i)
 
     for i in range (n-1, 0, -1):
