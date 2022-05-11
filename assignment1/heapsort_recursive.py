@@ -2,7 +2,6 @@
 
 from collections import deque
 from itertools import islice
-import sys
 import time
 import tracemalloc
 
