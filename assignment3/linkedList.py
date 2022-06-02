@@ -26,27 +26,8 @@ class LinkedList:
 
         self.count += 1
 
-
-    def sortedMerge(self, a:Node , b:Node):
-
-        result = None
-
-        if a == None:
-            return b
-        if b == None:
-            return a
-        
-        if a.data < b.data:
-            result = a
-            result.next = self.sortedMerge(a.next, b)
-        else:
-            result = b
-            result.next = self.sortedMerge(a, b.next)
-
-        return result
-
-
-    def getMiddle(self, head:Node):
+    @staticmethod
+    def getMiddle(head:Node):
         if head == None:
             return head
         
@@ -59,21 +40,42 @@ class LinkedList:
         
         return slow
 
-    def mergeSort(self, h:Node):
+    @staticmethod
+    def sortedMerge(a:Node , b:Node):
+
+        result = None
+
+        if a == None:
+            return b
+        if b == None:
+            return a
+        
+        if a.data < b.data:
+            result = a
+            result.next = LinkedList.sortedMerge(a.next, b)
+        else:
+            result = b
+            result.next = LinkedList.sortedMerge(a, b.next)
+
+        return result
+
+
+    @staticmethod
+    def mergeSort(h:Node):
 
         if h == None or h.next == None:
             return h
 
         
-        middle = self.getMiddle(h)
+        middle = LinkedList.getMiddle(h)
 
         nextMiddle =  middle.next
         middle.next = None
 
-        left = self.mergeSort(h)
+        left = LinkedList.mergeSort(h)
 
-        right = self.mergeSort(nextMiddle)
+        right = LinkedList.mergeSort(nextMiddle)
 
-        sortedlist = self.sortedMerge(left, right)
+        sortedlist = LinkedList.sortedMerge(left, right)
 
         return sortedlist

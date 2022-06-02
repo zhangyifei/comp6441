@@ -2,8 +2,25 @@
 from itertools import islice
 import sys
 import time
-from linkedList import LinkedList
+import math
+from unittest import result
+from linkedList import LinkedList, Node
 
+def is_prime(n: int) -> bool:
+    """Primality test using 6k+-1 optimization."""
+    if n <= 3:
+        return n > 1
+    if n % 2 == 0 or n % 3 == 0:
+        return False
+    i = 5
+    while i <= math.sqrt(n):
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i += 6
+    return True  
+
+def is_even(n: int) -> bool:
+    return (n % 2) == 0
 
 def readdata():
     file_name = 'rand.txt'
@@ -17,12 +34,25 @@ def readdata():
                 break
             data.extend([int(line.rstrip()) for line in next_n_lines])
 
-    ll = LinkedList()
+    ll_uo = LinkedList()
+    ll_ue = LinkedList()
+    ll_po = LinkedList()
+    ll_pe = LinkedList()
 
     for d in data:
-        ll.append(d)
+        prime = is_prime(d)
+        even = is_even(d)
 
-    return ll
+        if even and prime:
+            ll_pe.append(d)
+        elif even and (not prime):
+            ll_ue.append(d)
+        elif (not even) and prime:
+            ll_po.append(d)
+        else:
+            ll_uo.append(d)
+
+    return ll_uo, ll_ue, ll_po, ll_pe
     
 def printList(head):
     if head is None:
@@ -43,14 +73,23 @@ if __name__ == '__main__':
 
     #time at the start of program is noted
     start = time.time()
-    list = readdata()
-    print(list.count)
+    lists = readdata()
+    print(lists[0].count)
+    print(lists[1].count)
+    print(lists[2].count)
+    print(lists[3].count)
 
-    list.mergeSort(list.head)
-    #time at the end of program execution is noted
+    
+    result = None
+    count = 0
+    for i in range (0, len(lists)):
+        node = LinkedList.mergeSort(lists[i].head)
+        count += lists[i].count
+        result= LinkedList.sortedMerge(result, lists[i].head)
+
     end = time.time()
-    printList(list.head)
+    printList(result)
     print("Execution time in seconds: ",(end - start))
-    print("No. of lines sorted: ",list.count)
+    print("No. of lines sorted: ", count)
 
 
