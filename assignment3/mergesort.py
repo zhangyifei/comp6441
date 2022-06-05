@@ -56,14 +56,21 @@ def readdata():
             ll_ue.append(d)
         elif (not even) and prime:
             ll_po.append(d)
-        else:
+        elif (not even) and (not prime):
             ll_uo.append(d)
-    
+        else:
+            continue
+            
+    print("prime even--", ll_pe.count)
+    print("unprime even--", ll_ue.count)
+    print("prime odd--", ll_po.count)
+    print("unprime odd--", ll_uo.count)
+
     end_read_time = time.time()
     print("Execution time for populating data in lists in seconds: ",(end_read_time - start_read_time))
     print("\n")
 
-    return ll_uo, ll_ue, ll_po, ll_pe
+    return ll_pe, ll_ue, ll_po, ll_uo 
     
 def printList(head):
     if head is None:
@@ -101,6 +108,8 @@ if __name__ == '__main__':
     start_sort_time = time.time()
     print(f"Start time memory usage for sorting is {current / 10**6}MB; Peak was {peak / 10**6}MB")
   
+    LinkedList.sortedMerge_count=0
+    LinkedList.mergeSort_count=0
     result = None
     count = 0
     for i in range (0, len(lists)):
@@ -113,8 +122,10 @@ if __name__ == '__main__':
     print(f"End time memory usage for sorting is {current / 10**6}MB; Peak was {peak / 10**6}MB")
     print("Execution time for sorting in seconds: ",(end_sort_time - start_sort_time))
 
-    print("\n")
-    printList(result)
     print("No. of lines sorted: ", count)
+    print("No. of Total Recurision: ", LinkedList.mergeSort_count+LinkedList.sortedMerge_count)
 
+    print("\n")
+    print("Sorted list:\n")
+    printList(result)
 

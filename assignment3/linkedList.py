@@ -4,6 +4,8 @@ class Node:
         self.next = None
 
 class LinkedList:
+    mergeSort_count = 0
+    sortedMerge_count = 0
 
     def __init__(self):
         self.head = None
@@ -42,7 +44,7 @@ class LinkedList:
 
     @staticmethod
     def sortedMerge(a:Node , b:Node):
-
+        LinkedList.sortedMerge_count += 1
         result = None
 
         if a == None:
@@ -62,6 +64,7 @@ class LinkedList:
 
     @staticmethod
     def mergeSort(h:Node):
+        LinkedList.mergeSort_count += 1
 
         if h == None or h.next == None:
             return h
